@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Get Random Task</string>
+    <string name="tasks_list">Список задач</string>
+</resources>
