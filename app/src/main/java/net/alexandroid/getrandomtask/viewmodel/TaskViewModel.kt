@@ -20,6 +20,12 @@ class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
         }
     }
 
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            taskDao.delete(task)
+        }
+    }
+
     // AddTaskDialog
     private val _isAddTaskShown = MutableStateFlow(false)
     val isAddTaskShown: StateFlow<Boolean> = _isAddTaskShown.asStateFlow()
