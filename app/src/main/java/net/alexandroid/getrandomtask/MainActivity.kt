@@ -24,33 +24,39 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import net.alexandroid.getrandomtask.ui.MainScreen
 import net.alexandroid.getrandomtask.ui.theme.GetRandomTaskTheme
+import org.koin.androidx.compose.KoinAndroidContext
 
-@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
         setContent {
-            var showDialog by remember { mutableStateOf(false) }
-
             GetRandomTaskTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = { TopAppBar(title = { Text(stringResource(R.string.tasks_list)) }) },
-                    floatingActionButton = {
-                        FloatingActionButton(onClick = { showDialog = true }) {
-                            Icon(
-                                imageVector = Icons.Filled.Add,
-                                contentDescription = stringResource(R.string.btn_add_task)
-                            )
-                        }
-                    }
-                ) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding), showDialog)
+                KoinAndroidContext {
+                    AppContent()
                 }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppContent() {
+    var showDialog by remember { mutableStateOf(false) }
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.tasks_list)) }) },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { showDialog = true }) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(R.string.btn_add_task)
+                )
+            }
+        }
+    ) { innerPadding ->
+        MainScreen(modifier = Modifier.padding(innerPadding), showDialog)
     }
 }
 
