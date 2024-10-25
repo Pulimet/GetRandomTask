@@ -34,7 +34,7 @@ fun TaskItem(task: Task, viewModel: TaskViewModel = koinViewModel()) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
     ) {
         Box(
             modifier = Modifier
@@ -45,7 +45,7 @@ fun TaskItem(task: Task, viewModel: TaskViewModel = koinViewModel()) {
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = task.name)
         Spacer(Modifier.weight(1f))
-        Text(text = "Вес: ${task.weight}", modifier = Modifier.width(80.dp))
+        Text(text = stringResource(R.string.weight, task.weight), modifier = Modifier.width(80.dp))
 
         IconButton(onClick = { viewModel.deleteTask(task) }) {
             Icon(Icons.Filled.Delete, contentDescription = "Delete")

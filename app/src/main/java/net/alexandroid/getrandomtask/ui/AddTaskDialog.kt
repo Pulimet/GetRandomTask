@@ -79,10 +79,10 @@ fun AddTaskDialog(viewModel: TaskViewModel = koinViewModel()) {
                     Slider(
                         value = taskWeight.toFloat(),
                         onValueChange = { taskWeight = it.toInt() },
-                        valueRange = 1f..100f,
+                        valueRange = 1f..5f,
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
-                    Text("Вес: $taskWeight")
+                    Text(stringResource(R.string.weight, taskWeight))
                 }
             },
             confirmButton = {

@@ -11,4 +11,5 @@
     <string name="btn_deny">Decline</string>
     <string name="example_task">Example Task</string>
     <string name="btn_add_task">Add Task</string>
+    <string name="weight">Weight: %1$s</string>
 </resources>
