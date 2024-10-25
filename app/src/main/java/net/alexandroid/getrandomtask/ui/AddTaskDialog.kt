@@ -15,6 +15,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -28,10 +29,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import net.alexandroid.getrandomtask.R
 import net.alexandroid.getrandomtask.model.Task
+import net.alexandroid.getrandomtask.viewmodel.TaskViewModel
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun AddTaskDialog(showDialog: Boolean, setShowDialog: (Boolean, Task?) -> Unit) {
+fun AddTaskDialog(viewModel: TaskViewModel = koinViewModel()) {
+    val isAddTaskShown by viewModel.isAddTaskShown.collectAsState()
     val colors = remember {
         listOf(
             Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Cyan,
@@ -43,14 +47,13 @@ fun AddTaskDialog(showDialog: Boolean, setShowDialog: (Boolean, Task?) -> Unit) 
         )
     }
 
-
-    if (showDialog) {
+    if (isAddTaskShown) {
         var taskName by remember { mutableStateOf("") }
         var taskColor by remember { mutableStateOf(colors[0]) }
         var taskWeight by remember { mutableIntStateOf(1) }
 
         AlertDialog(
-            onDismissRequest = { setShowDialog(false, null) },
+            onDismissRequest = { viewModel.hideAddTaskDialog() },
             title = { Text(stringResource(R.string.add_task)) },
             text = {
                 Column {
@@ -89,13 +92,14 @@ fun AddTaskDialog(showDialog: Boolean, setShowDialog: (Boolean, Task?) -> Unit) 
                         color = taskColor.toArgb(),
                         weight = taskWeight
                     )
-                    setShowDialog(false, newTask)
+                    viewModel.hideAddTaskDialog()
+                    viewModel.addTask(newTask)
                 }) {
                     Text(stringResource(R.string.btn_add))
                 }
             },
             dismissButton = {
-                Button(onClick = { setShowDialog(false, null) }) {
+                Button(onClick = { viewModel.hideAddTaskDialog() }) {
                     Text(stringResource(R.string.btn_cancel))
                 }
             }

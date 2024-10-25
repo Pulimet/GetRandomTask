@@ -15,16 +15,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import net.alexandroid.getrandomtask.ui.MainScreen
 import net.alexandroid.getrandomtask.ui.theme.GetRandomTaskTheme
+import net.alexandroid.getrandomtask.viewmodel.TaskViewModel
 import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,13 +40,12 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppContent() {
-    var showDialog by remember { mutableStateOf(false) }
+fun AppContent(viewModel: TaskViewModel = koinViewModel()) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(stringResource(R.string.tasks_list)) }) },
         floatingActionButton = {
-            FloatingActionButton(onClick = { showDialog = true }) {
+            FloatingActionButton(onClick = { viewModel.showAddTaskDialog() }) {
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = stringResource(R.string.btn_add_task)
@@ -56,7 +53,7 @@ fun AppContent() {
             }
         }
     ) { innerPadding ->
-        MainScreen(modifier = Modifier.padding(innerPadding), showDialog)
+        MainScreen(modifier = Modifier.padding(innerPadding))
     }
 }
 
@@ -64,6 +61,6 @@ fun AppContent() {
 @Composable
 fun GreetingPreview() {
     GetRandomTaskTheme {
-        MainScreen(showDialogClick = false)
+        MainScreen()
     }
 }
