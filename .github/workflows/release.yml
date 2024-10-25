@@ -21,13 +21,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'
-
-      - name: Install build tools 29.0.3
-        uses: actions/setup-android@v3
-        with:
-          api-level: 29
-          build-tools-version: 29.0.3    
+          distribution: 'temurin'  
 
       - name: Build release APK
         run: ./gradlew assembleRelease 
@@ -40,8 +34,8 @@ jobs:
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-
-
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"   
 
       - name: Create Release
         uses: actions/create-release@v1
