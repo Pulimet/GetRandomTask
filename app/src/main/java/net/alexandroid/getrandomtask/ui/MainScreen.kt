@@ -16,15 +16,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Room
+import net.alexandroid.getrandomtask.R
 import net.alexandroid.getrandomtask.model.Task
 import net.alexandroid.getrandomtask.room.AppDatabase
+import net.alexandroid.getrandomtask.utils.RandomTask
 import net.alexandroid.getrandomtask.viewmodel.TaskViewModel
 import net.alexandroid.getrandomtask.viewmodel.TaskViewModelFactory
-import kotlin.random.Random
 
 
 @Composable
@@ -59,19 +61,20 @@ fun MainScreen(modifier: Modifier = Modifier, showDialogClick: Boolean) {
         }
         Button(
             onClick = {
-                selectedTask = selectRandomTask(tasks)
+                selectedTask = RandomTask.select(tasks)
                 showTaskDialog = true
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text("Хочу задание!")
+            Text(stringResource(R.string.wanna_task))
         }
     }
 
     ShowTaskDialog(selectedTask, showTaskDialog) {
         showTaskDialog = it
+        selectedTask = null
     }
 
     AddTaskDialog(showAddTaskDialog) { show, newTask ->
@@ -82,22 +85,6 @@ fun MainScreen(modifier: Modifier = Modifier, showDialogClick: Boolean) {
     }
 }
 
-fun selectRandomTask(tasks: List<Task>): Task? {
-    if (tasks.isEmpty()) return null
-
-    val totalWeight = tasks.sumOf { it.weight }
-    val randomNumber = Random.nextInt(totalWeight)
-
-    var currentWeight = 0
-    for (task in tasks) {
-        currentWeight += task.weight
-        if (randomNumber <= currentWeight) {
-            return task
-        }
-    }
-
-    return null
-}
 
 @Preview(showBackground = true)
 @Composable

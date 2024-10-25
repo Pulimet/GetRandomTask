@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -23,7 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import net.alexandroid.getrandomtask.R
 import net.alexandroid.getrandomtask.model.Task
 
 
@@ -44,20 +47,19 @@ fun AddTaskDialog(showDialog: Boolean, setShowDialog: (Boolean, Task?) -> Unit) 
     if (showDialog) {
         var taskName by remember { mutableStateOf("") }
         var taskColor by remember { mutableStateOf(colors[0]) }
-        var taskWeight by remember { mutableStateOf(1) }
+        var taskWeight by remember { mutableIntStateOf(1) }
 
         AlertDialog(
             onDismissRequest = { setShowDialog(false, null) },
-            title = { Text("Добавить задачу") },
+            title = { Text(stringResource(R.string.add_task)) },
             text = {
                 Column {
                     TextField(
                         value = taskName,
                         onValueChange = { taskName = it },
-                        label = { Text("Название задачи") }
+                        label = { Text(stringResource(R.string.task_title)) }
                     )
 
-                    // Выбор цвета
                     LazyRow(modifier = Modifier.padding(vertical = 8.dp)) {
                         items(colors) { color ->
                             Box(
@@ -71,7 +73,6 @@ fun AddTaskDialog(showDialog: Boolean, setShowDialog: (Boolean, Task?) -> Unit) 
                         }
                     }
 
-                    // Ползунок для веса
                     Slider(
                         value = taskWeight.toFloat(),
                         onValueChange = { taskWeight = it.toInt() },
@@ -90,12 +91,12 @@ fun AddTaskDialog(showDialog: Boolean, setShowDialog: (Boolean, Task?) -> Unit) 
                     )
                     setShowDialog(false, newTask)
                 }) {
-                    Text("Добавить")
+                    Text(stringResource(R.string.btn_add))
                 }
             },
             dismissButton = {
                 Button(onClick = { setShowDialog(false, null) }) {
-                    Text("Отмена")
+                    Text(stringResource(R.string.btn_cancel))
                 }
             }
         )

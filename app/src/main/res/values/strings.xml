@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">Get Random Task</string>
     <string name="tasks_list">Список задач</string>
+    <string name="wanna_task">Хочу задание!</string>
+    <string name="add_task">Добавить задачу</string>
+    <string name="task_title">Название задачи</string>
+    <string name="btn_add">Добавить</string>
+    <string name="btn_cancel">Отмена</string>
+    <string name="your_task_is">Ваше задание:</string>
+    <string name="btn_accept">Принять</string>
+    <string name="btn_deny">Отказаться</string>
+    <string name="example_task">Пример задачи</string>
+    <string name="btn_add_task">Добавить задачу</string>
 </resources>

@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                         FloatingActionButton(onClick = { showDialog = true }) {
                             Icon(
                                 imageVector = Icons.Filled.Add,
-                                contentDescription = "Добавить задачу"
+                                contentDescription = stringResource(R.string.btn_add_task)
                             )
                         }
                     }
