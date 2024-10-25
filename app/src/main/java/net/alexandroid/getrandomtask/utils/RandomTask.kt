@@ -13,7 +13,7 @@ object RandomTask {
         var currentWeight = 0
         for (task in tasks) {
             currentWeight += task.weight
-            if (randomNumber <= currentWeight) {
+            if (randomNumber < currentWeight) {
                 return task
             }
         }
